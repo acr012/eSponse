@@ -11,7 +11,7 @@ const app = express();              //generates app
                                     //route handlers will be associated w/ app
 
 app.get('/', (req, res) => {
-  res.send({ hi: 'there' });
+  res.send({ hi: 'Ariel' });
 });
 
 const PORT = process.env.PORT || 5000;      //heroku dynamic port binding at runtime
