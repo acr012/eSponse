@@ -1,19 +1,27 @@
-const express = require('express'); //access express library
-                                    //common js modules
-                                    //Node.js system to share modules
-                                    //
-                                    //note: import express from 'express';
-                                    //      uses ES2015 modules system
-                                    //      Node.js does not support natively
-                                    //      support this
+const express = require('express');
+const mongoose = require('mongoose');
+const cookieSession = require('cookie-session');
+const passport = require('passport');
+const keys = require('./config/keys');
+require('./models/User');           //order matters here
+require('./services/passport');
+
+mongoose.connect(keys.mongoURI);
 
 const app = express();              //generates app
-                                    //route handlers will be associated w/ app
 
-app.get('/', (req, res) => {
-  res.send({ hi: 'Ariel' });
-});
+app.use(
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 60 * 1000,   //30 days before expires
+    keys: [keys.cookieKey]
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+require('./routes/authRoutes')(app);  //pass app to authRoutes
 
 const PORT = process.env.PORT || 5000;      //heroku dynamic port binding at runtime
-                                    //does not appear in development env
-app.listen(PORT);                   //defines port
+                                            //does not appear in development env
+app.listen(PORT);                           //defines port
