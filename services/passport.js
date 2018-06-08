@@ -34,7 +34,7 @@ passport.use(
       clientID: key.googleClientID,
       clientSecret: key.googleClientSecret,
       callbackURL: '/auth/google/callback',
-      proxy: true;
+      proxy: true
     },
       (accessToken, refreshToken, profile, done) => {
         //query mongo records for existing profile id
