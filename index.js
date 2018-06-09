@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const keys = require('./config/keys');
+const bodyParser = require('body-parser');
 require('./models/User');           //order matters here
 require('./services/passport');
 
@@ -10,17 +11,21 @@ mongoose.connect(keys.mongoURI);
 
 const app = express();              //generates app
 
+//Middleware
+// operate on incoming requests before sending
+// them to request handlers
+app.use(bodyParser.json());   //asigns PUT/POST/PATCH requests to req.body
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,   //30 days before expires
     keys: [keys.cookieKey]
   })
 );
-
 app.use(passport.initialize());
 app.use(passport.session());
 
 require('./routes/authRoutes')(app);  //pass app to authRoutes
+require('./routes/billingRoutes')(app);
 
 const PORT = process.env.PORT || 5000;      //heroku dynamic port binding at runtime
                                             //does not appear in development env

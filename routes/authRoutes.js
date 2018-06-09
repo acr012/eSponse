@@ -11,13 +11,21 @@ module.exports = (app) => {
       scope: ['profile', 'email']
     })
   );
-  // Uses known code in exchange for user profile
-  app.get('/auth/google/callback', passport.authenticate('google'));
+
+  // Uses code in exchange for user profile
+  // sends to surveys page
+  app.get(
+    '/auth/google/callback',
+    passport.authenticate('google'),
+    (req, res) => {
+      res.redirect('/surveys');
+    }
+  );
 
   // Logout
   app.get('/api/logout', (req, res) => {
     req.logout();   // kill cookie
-    res.send(req.user);
+    res.redirect('/');
   });
 
   // Current User
