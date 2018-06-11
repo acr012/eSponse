@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const Path = require('path-parser').default;
+const Path = require('path-parser');// .default;
 const { URL } = require('url');
 const mongoose = require('mongoose');
 const requireLogin = require('../middlewares/requireLogin');
@@ -7,16 +7,15 @@ const requireCredits = require('../middlewares/requireCredits');
 const Mailer = require('../services/Mailer');
 const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 
-
 const Survey = mongoose.model('surveys');
 
 module.exports = app => {
   //list of user surveys
   app.get('/api/surveys', requireLogin, async (req, res) => {
-    const surveys = await Survey.find({ _user: req.user.id })
-      .select({ recipients: false
-      });
-      
+    const surveys = await Survey.find({ _user: req.user.id }).select({
+      recipients: false
+    });
+
     res.send(surveys);
   });
 
