@@ -5,6 +5,7 @@ const passport = require('passport');
 const keys = require('./config/keys');
 const bodyParser = require('body-parser');
 require('./models/User');           //order matters here
+require('./models/Survey');
 require('./services/passport');
 
 mongoose.connect(keys.mongoURI);
@@ -26,6 +27,7 @@ app.use(passport.session());
 
 require('./routes/authRoutes')(app);  //pass app to authRoutes
 require('./routes/billingRoutes')(app);
+require('./routes/surveyRoutes')(app);
 
 if( process.env.NODE_ENV === 'production'){
   //Express serves production assests
@@ -40,6 +42,6 @@ if( process.env.NODE_ENV === 'production'){
   });
 }
 
-const PORT = process.env.PORT || 5000;      //heroku dynamic port binding at runtime
+const PORT = process.env.PORT || 5500;      //heroku dynamic port binding at runtime
                                             //does not appear in development env
 app.listen(PORT);                           //defines port
