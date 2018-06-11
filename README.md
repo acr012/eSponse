@@ -20,4 +20,4 @@ eSponse includes (so far) google user sign-in using Passport.js to support oauth
 In order to use the emailing features the user must purchase credits (via the Stripe API). Then the sendgrip emailing sevice 
 is used to send survey emails to the recipients.
 
-The heroku cloud platform is used to build and run the production application.
+The heroku cloud platform is used to build and run the production version of eSponse, and the current working iteration can be found at https://esponse.herokuapp.com/.
